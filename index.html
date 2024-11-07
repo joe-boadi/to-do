@@ -8,24 +8,26 @@
     <title>TODO</title>
 </head>
 <body>
-
     <div class="container">
         <div class="main-title">
             <h1 id="title">TO-DO</h1>
             <h2 id="sub_title">Keep track of your progress...</h2>
         </div>
-
             <form id="todo-form"> 
                 <div id="form-title">
-                    <input id="title_field" type="text" placeholder="Title">
+                    <input title="Text goes here" id="title_field" type="text" placeholder="Title">
                     <input type="datetime-local" name="date" id="date_field">
                 </div>
-                <input name="" id="description" placeholder="Message" >
+                <input title="Detail goes here" name="" id="description" placeholder="Message" >
                 <button type="submit" id="submit" onclick="">Add task</button>
             </form>
             <button id="sort-asc">Ascending</button>
             <button id="sort-desc">Descending</button>
             <div id="todo-container"></div>
+            
+            <!-- HANDLE ERROR FOR EMPTY INPUT FIELDS -->
+            <div id="for_error"></div>
             <script src="app.js"></script>
+    </div>
 </body>
 </html>
