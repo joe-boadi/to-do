@@ -30,10 +30,14 @@ document.getElementById('todo-form').addEventListener('submit', function(event) 
  * @returns {boolean} - True if the date is valid, false otherwise
  */
 function isValidDate(check_date) {
-    return check_date instanceof Date && !isNaN(d);
+    return check_date instanceof Date && !isNaN(check_date);
 }
+// saves the current state of the todos array to local storage.
+let todos = JSON.parse(localStorage.getItem('todos')) || [];
 
-let todos = [];
+function saveTodos() {
+    localStorage.setItem('todos', JSON.stringify(todos));
+}
 
 /**
  * Adds a todo item to the list
