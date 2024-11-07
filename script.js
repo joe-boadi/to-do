@@ -9,8 +9,20 @@ document.getElementById('todo-form').addEventListener('submit', function(event) 
     const dueDate = document.getElementById('date_field').value;
 
     if (!title || !description || !dueDate) {
-        alert('All fields are required!');
-        return;
+        const error = document.getElementById('for_error')
+        error.innerHTML = `<div class="error-message">
+                    <div class="error">
+                        <p>No field should be empty‼</p>
+
+                        <button class="btn" id="btn">Ok</button>
+                    </div>`;
+        error.style.display = 'flex'
+        
+        document.getElementById("btn").addEventListener('click',()=>{
+            document.getElementById("for_error").style.display = 'none'
+        })
+
+        return
     }
 
     if (document.getElementById('todo-form').dataset.editing) {
@@ -23,6 +35,21 @@ document.getElementById('todo-form').addEventListener('submit', function(event) 
     document.getElementById('todo-form').reset();
     delete document.getElementById('todo-form').dataset.editing;
 });
+
+function addTodoItem(title, description, dueDate) {
+    const todo = {
+        id: Date.now(),
+        title,
+        description,
+        dueDate: new Date(dueDate),
+        completed: false
+    };
+    
+    todos.push(todo);
+    console.log('Todo added:', todo);
+    saveTodos();
+    renderTodos();
+}
 
 /**
  * Checks if a date is valid
@@ -45,17 +72,6 @@ function saveTodos() {
  * @param {string} description - The description of the todo item
  * @param {string} dueDate - The due date of the todo item
  */
-function addTodoItem(title, description, dueDate) {
-    const todo = {
-        id: Date.now(),
-        title,
-        description,
-        dueDate: new Date(dueDate),
-        completed: false
-    };
-    todos.push(todo);
-    renderTodos();
-}
 
 function updateTodoItem(id, title, description, dueDate) {
     const todo = todos.find(todo => todo.id == id);
@@ -63,6 +79,7 @@ function updateTodoItem(id, title, description, dueDate) {
         todo.title = title;
         todo.description = description;
         todo.dueDate = new Date(dueDate);
+        saveTodos();
         renderTodos();
     }
 }
@@ -87,15 +104,6 @@ function renderTodos() {
         `;
         container.appendChild(todoElement);
     });
-}
-
-/**
- * Deletes a todo item from the list
- * @param {number} id - The ID of the todo item to delete
- */
-function deleteTodoItem(id) {
-    todos = todos.filter(todo => todo.id !== id);
-    renderTodos();
 }
 
 /**
@@ -126,6 +134,16 @@ function editTodoItem(id) {
     }
 }
 
+/**
+ * Deletes a todo item from the list
+ * @param {number} id - The ID of the todo item to delete
+ */
+function deleteTodoItem(id) {
+    todos = todos.filter(todo => todo.id !== id);
+    saveTodos();
+    renderTodos();
+}
+
 /** 
  * Sorts the todo items in ascending order by due date 
  */
@@ -140,3 +158,7 @@ document.getElementById('sort-desc').addEventListener('click', function() {
     todos.sort((firstTodo, secondTodo) => new Date(secondTodo.dueDate) - new Date(firstTodo.dueDate));
     renderTodos();
 });
+
+
+// Load todos from local storage when the page loads
+document.addEventListener('DOMContentLoaded', renderTodos);
