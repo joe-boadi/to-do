@@ -21,10 +21,8 @@ document.getElementById('todo-form').addEventListener('submit', function(event) 
         document.getElementById("btn").addEventListener('click',()=>{
             document.getElementById("for_error").style.display = 'none'
         })
-
         return
     }
-
     if (document.getElementById('todo-form').dataset.editing) {
         const id = document.getElementById('todo-form').dataset.editing;
         updateTodoItem(id, title, description, dueDate);
@@ -44,7 +42,6 @@ function addTodoItem(title, description, dueDate) {
         dueDate: new Date(dueDate),
         completed: false
     };
-    
     todos.push(todo);
     console.log('Todo added:', todo);
     saveTodos();
@@ -151,6 +148,7 @@ document.getElementById('sort-asc').addEventListener('click', function() {
     todos.sort((firstTodo, secondTodo) => new Date(firstTodo.dueDate) - new Date(secondTodo.dueDate));
     renderTodos();
 });
+
 /**
  * Sorts the todo items in descending order by due date
  */
@@ -158,7 +156,6 @@ document.getElementById('sort-desc').addEventListener('click', function() {
     todos.sort((firstTodo, secondTodo) => new Date(secondTodo.dueDate) - new Date(firstTodo.dueDate));
     renderTodos();
 });
-
 
 // Load todos from local storage when the page loads
 document.addEventListener('DOMContentLoaded', renderTodos);
